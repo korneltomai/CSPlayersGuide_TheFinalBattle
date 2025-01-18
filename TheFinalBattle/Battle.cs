@@ -22,20 +22,20 @@ namespace TheFinalBattle
             return WinningParty.None;
         }        
 
-        public List<Character> GetPartyFor(Character character)
+        public Party GetPartyFor(Character character)
         {
             foreach (Character c in Heroes.Characters)
                 if (c == character)
-                    return Heroes.Characters;
-            return Monsters.Characters;
+                    return Heroes;
+            return Monsters;
         }
 
-        public List<Character> GetEnemyPartyFor(Character character)
+        public Party GetEnemyPartyFor(Character character)
         {
             foreach (Character c in Heroes.Characters)
                 if (c == character)
-                    return Monsters.Characters;
-            return Heroes.Characters;
+                    return Monsters;
+            return Heroes;
         }
 
         public void DisplayStatus(Character currentCharacter)

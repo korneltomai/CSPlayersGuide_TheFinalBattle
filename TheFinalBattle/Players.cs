@@ -15,8 +15,8 @@ namespace TheFinalBattle.Players
 
         public IAction GetAction(Battle battle, Character character)
         {
-            int enemyPartySize = battle.GetEnemyPartyFor(character).Count();
-            Character randomTarget = battle.GetEnemyPartyFor(character)[_random.Next(enemyPartySize)];
+            int enemyPartySize = battle.GetEnemyPartyFor(character).Characters.Count();
+            Character randomTarget = battle.GetEnemyPartyFor(character).Characters[_random.Next(enemyPartySize)];
             return new AttackAction(character.Attack, randomTarget);
         }
     }
@@ -26,16 +26,33 @@ namespace TheFinalBattle.Players
         public IAction GetAction(Battle battle, Character character)
         {
             Console.WriteLine($"1 - Attack");
-            Console.WriteLine($"2 - Do Nothing");
+            Console.WriteLine($"2 - Use Item");
+            Console.WriteLine($"3 - Do Nothing");
 
-            int actionIndex = Helpers.GetIntInputFromPlayer("What do you want to do? ", 2);
-
-            return actionIndex switch
+            while (true)
             {
-                1 => new AttackAction(character.Attack, battle.GetEnemyPartyFor(character)[0]),
-                2 => new NothingAction(),
-                _ => throw new IndexOutOfRangeException()
-            };
+                int actionIndex = Helpers.GetIntInputFromPlayer("What do you want to do? ", 3);
+
+                switch (actionIndex)
+                {
+                    case 1:
+                        int attackIndex = Helpers.GetIntInputFromPlayer("Who do you want to attack? ", battle.GetEnemyPartyFor(character).Characters.Count) - 1;
+                        return new AttackAction(character.Attack, battle.GetEnemyPartyFor(character).Characters[attackIndex]);
+                    case 2:
+                        bool partyHasItems = battle.GetPartyFor(character).DisplayItems();
+                        if (partyHasItems)
+                        {
+                            var itemStacks = battle.GetPartyFor(character).GetItemStacksFromInventory();
+                            int itemIndex = Helpers.GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
+                            return new UseItemAction(itemStacks[itemIndex].Items[0], character);
+                        }
+                        continue;
+                    case 3:
+                        return new NothingAction();
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
         }
 
     }
