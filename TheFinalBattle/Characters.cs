@@ -17,6 +17,11 @@ namespace TheFinalBattle.Characters
             MaxHealth = health;
             Health = health;
         }
+
+        public override string ToString()
+        {
+            return $"{Name}  ( {Health}/{MaxHealth} )";
+        }
     }
 
     public class TrueProgrammer : Character

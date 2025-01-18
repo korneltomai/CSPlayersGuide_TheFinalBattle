@@ -17,7 +17,9 @@ namespace TheFinalBattle
         public bool TakeTurn(Battle battle)
         {
             foreach (Character character in Characters) 
-            { 
+            {
+                battle.DisplayStatus(character);
+
                 Console.WriteLine($"It is {character.Name}'s turn...");
                 IAction action = Player.GetAction(battle, character);
                 action.Do(battle, character);
@@ -29,6 +31,24 @@ namespace TheFinalBattle
                     return true;
             }
             return false;
+        }
+
+        public void DisplayParty(Character currentCharacter, bool alignLeft = false)
+        {
+            foreach (Character c in Characters)
+            {
+                if (c == currentCharacter)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+
+                if (alignLeft)
+                {
+                    Console.WriteLine(String.Format($"{{0,{Console.WindowWidth}}}", c.ToString()));
+                }
+                    
+                else
+                    Console.WriteLine(c.ToString());
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
     } 
 }

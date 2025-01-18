@@ -37,6 +37,17 @@ namespace TheFinalBattle
                     return Monsters.Characters;
             return Heroes.Characters;
         }
+
+        public void DisplayStatus(Character currentCharacter)
+        {
+            Console.WriteLine();
+            Helpers.PrintLineWithTextInMiddle('=', "BATTLE");
+            Heroes.DisplayParty(currentCharacter);
+            Helpers.PrintLineWithTextInMiddle('-', "VS");
+            Monsters.DisplayParty(currentCharacter, true);
+            Helpers.PrintLine('=');
+            Console.WriteLine();
+        }
     }
 
     public enum WinningParty { Heroes, Monsters, None }

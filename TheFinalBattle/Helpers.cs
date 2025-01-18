@@ -32,5 +32,32 @@ namespace TheFinalBattle
 
             return actionIndex;
         }
+
+        public static void PrintLineWithTextInMiddle(char lineChar, string text)
+        {
+            StringBuilder textToPrint = new StringBuilder();
+
+            int lineCharNumberPerSide = (Console.WindowWidth - (text.Length + 2)) / 2;
+
+            for (int i = 0; i < lineCharNumberPerSide; i++)
+                textToPrint.Append(lineChar);
+
+            textToPrint.Append($" {text} ");
+
+            for (int i = 0; i < lineCharNumberPerSide; i++)
+                textToPrint.Append(lineChar);
+
+            Console.WriteLine(textToPrint.ToString());
+        }
+
+        public static void PrintLine(char lineChar)
+        {
+            StringBuilder textToPrint = new StringBuilder();
+
+            for (int i = 0; i < Console.WindowWidth; i++)
+                textToPrint.Append(lineChar);
+
+            Console.WriteLine(textToPrint.ToString());
+        }
     }
 }
