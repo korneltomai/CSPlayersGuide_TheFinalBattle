@@ -15,9 +15,9 @@ namespace TheFinalBattle
 
         public WinningParty PlayRound()
         {
-            if (Heroes.TakeTurn())
+            if (Heroes.TakeTurn(this))
                 return WinningParty.Heroes;
-            if (Monsters.TakeTurn())
+            if (Monsters.TakeTurn(this))
                 return WinningParty.Monsters;
             return WinningParty.None;
         }        

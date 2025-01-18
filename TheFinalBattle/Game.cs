@@ -52,9 +52,9 @@ namespace TheFinalBattle
         private List<Character>[] GetWaves()
         {
             return [
-                    [new Skeleton(Battle)],
-                    [new Skeleton(Battle), new Skeleton(Battle)],
-                    [new UncodedOne(Battle)],
+                    [new Skeleton()],
+                    [new Skeleton(), new Skeleton()],
+                    [new UncodedOne()],
                 ];
         }
     }

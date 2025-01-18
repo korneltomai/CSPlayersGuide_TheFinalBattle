@@ -1,19 +1,18 @@
 ﻿using TheFinalBattle;
 using TheFinalBattle.Characters;
+using TheFinalBattle.Players;
 
 Console.Write("What is your name? ");
 string playerName = Console.ReadLine()?.ToUpper() ?? "TOG";
 Console.Clear();
 
-Player player1 = new Player(PlayerType.Human);
-Player player2 = new Player(PlayerType.Computer);
+IPlayer player1 = new HumanPlayer();
+IPlayer player2 = new ComputerPlayer();
 
-Party heroes = new Party(player1);
-Party monsters = new Party(player2);
+Party heroes = new Party(player1, [new TrueProgrammer(playerName)]);
+Party monsters = new Party(player2, [new Skeleton()]);
 
 Battle battle = new Battle(heroes, monsters);
-
-heroes.Characters.Add(new TrueProgrammer(battle, playerName));
 
 Game game = new Game(battle);
 game.Run();
