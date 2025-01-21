@@ -18,9 +18,12 @@ namespace TheFinalBattle.Players
         {
             IAction action = new NothingAction();
 
-            IItem? potion = battle.GetPartyFor(character).Items.FirstOrDefault(i => i.Name == "Potion");
-            if (potion != null && character.Health <= (character.MaxHealth / 4))
-                return new UseItemAction(potion);
+            IItem? potion = battle.GetPartyFor(character).Items.FirstOrDefault(i => i.Name == "POTION");
+            if (potion != null && 
+                character.Health <= (character.MaxHealth / 4) &&
+                _random.Next(100) < 25)
+                    return new UseItemAction(potion, [character]);
+                
 
             int enemyPartySize = battle.GetEnemyPartyFor(character).Characters.Count();
             Character randomTarget = battle.GetEnemyPartyFor(character).Characters[_random.Next(enemyPartySize)];

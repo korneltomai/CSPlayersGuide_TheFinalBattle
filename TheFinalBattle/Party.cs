@@ -22,7 +22,7 @@ namespace TheFinalBattle
             foreach (Character character in Characters) 
             {
                 battle.DisplayStatus(character);
-
+                Console.WriteLine();
                 Console.WriteLine($"It is {character.Name}'s turn...");
                 IAction action = Player.GetAction(battle, character);
                 action.Do(battle, character);
