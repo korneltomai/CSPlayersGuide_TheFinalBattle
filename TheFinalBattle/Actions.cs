@@ -45,23 +45,52 @@ namespace TheFinalBattle.Actions
     public class UseItemAction : IAction
     {
         private readonly IItem _item;
-        private readonly Character _target;
 
-        public UseItemAction(IItem item, Character target)
+        public UseItemAction(IItem item)
         {
             _item = item;
-            _target = target;
         }
 
         public void Do(Battle battle, Character user)
         {
-            if (user == _target)
-                Console.WriteLine($"{user.Name} used {_item.Name} on THEMSELVES.");
-            else
-                Console.WriteLine($"{user.Name} used {_item.Name} on {_target.Name}.");
+            List<Character> targets = GetItemTarget(battle, user, _item);
 
-            _item.Use(_target);
+             foreach (Character target in targets)
+            {
+                if (user == target)
+                    Console.WriteLine($"{user.Name} used {_item.Name} on THEMSELVES.");
+                else
+                    Console.WriteLine($"{user.Name} used {_item.Name} on {target.Name}.");
+
+                _item.Use(target);
+            }
+
             battle.GetPartyFor(user).Items.Remove(_item);
+        }
+
+        private List<Character> GetItemTarget(Battle battle, Character user, IItem item)
+        {
+            if (item.ItemData.Targeting == Targeting.TeamTarget && item.ItemData.TargetTeam == TargetTeam.OwnTeam)
+                return battle.GetPartyFor(user).Characters;
+            else if (item.ItemData.Targeting == Targeting.TeamTarget && item.ItemData.TargetTeam == TargetTeam.EnemyTeam)
+                return battle.GetEnemyPartyFor(user).Characters;
+            else
+            {
+                List<Character> target = new();
+
+                if (item.ItemData.TargetTeam == TargetTeam.OwnTeam)
+                {
+                    int targetIndex = Helpers.GetIntInputFromPlayer("Select a hero: ", battle.GetPartyFor(user).Characters.Count) - 1;
+                    target.Add(battle.GetPartyFor(user).Characters[targetIndex]);
+                }
+                else
+                {
+                    int targetIndex = Helpers.GetIntInputFromPlayer("Select an enemy: ", battle.GetEnemyPartyFor(user).Characters.Count);
+                    target.Add(battle.GetEnemyPartyFor(user).Characters[targetIndex]);
+                }
+
+                return target;
+            }
         }
     }
 }

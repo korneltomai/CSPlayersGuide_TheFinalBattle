@@ -6,12 +6,14 @@ namespace TheFinalBattle.Items
     public interface IItem
     {
         public string Name { get; }
+        public ItemData ItemData { get; }
         public void Use(Character target);
     }
 
     public class Potion : IItem
     {
         public string Name => "POTION";
+        public ItemData ItemData => new ItemData(Targeting.SingleTarget, TargetTeam.OwnTeam);
         public void Use(Character target)
         {
             target.Health += 10;
@@ -19,5 +21,9 @@ namespace TheFinalBattle.Items
             Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
         }
     }
+
+    public record ItemData(Targeting Targeting, TargetTeam TargetTeam);
+    public enum Targeting { SingleTarget, TeamTarget }
+    public enum TargetTeam { OwnTeam, EnemyTeam }
 }
 

@@ -44,7 +44,7 @@ namespace TheFinalBattle.Players
                         {
                             var itemStacks = battle.GetPartyFor(character).GetItemStacksFromInventory();
                             int itemIndex = Helpers.GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
-                            return new UseItemAction(itemStacks[itemIndex].Items[0], character);
+                            return new UseItemAction(itemStacks[itemIndex].Items[0]);
                         }
                         continue;
                     case 3:
