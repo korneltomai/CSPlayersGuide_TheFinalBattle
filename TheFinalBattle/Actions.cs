@@ -17,28 +17,30 @@ namespace TheFinalBattle.Actions
     public class AttackAction : IAction
     {
         private readonly IAttack _attack;
-        private readonly Character _target;
-        public AttackAction(IAttack attack, Character target)
+        private readonly List<Character> _targets;
+        public AttackAction(IAttack attack, List<Character> targets)
         {
             _attack = attack;
-            _target = target;
+            _targets = targets;
         }
 
         public void Do(Battle battle, Character user)
         {
-            _target.Health -= _attack.AttackData.Damage;
-
-            Console.WriteLine($"{user.Name} used {_attack.Name} on {_target.Name}.");
-            Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {_target.Name}.");
-
-            if (_target.Health == 0)
+            foreach (Character target in _targets)
             {
-                Console.WriteLine($"{_target.Name} has been defeated!");
-                battle.GetPartyFor(_target).Characters.Remove(_target);
-            }
-            else
-                Console.WriteLine($"{_target.Name} is now at {_target.Health}/{_target.MaxHealth} HP.");
+                target.Health -= _attack.AttackData.Damage;
 
+                Console.WriteLine($"{user.Name} used {_attack.Name} on {target.Name}.");
+                Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {target.Name}.");
+
+                if (target.Health == 0)
+                {
+                    Console.WriteLine($"{target.Name} has been defeated!");
+                    battle.GetPartyFor(target).Characters.Remove(target);
+                }
+                else
+                    Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
+            }
         }
     }
 
@@ -68,4 +70,7 @@ namespace TheFinalBattle.Actions
             }
         } 
     }
+
+    public enum Targeting { SingleTarget, TeamTarget }
+    public enum TargetTeam { OwnTeam, EnemyTeam }
 }

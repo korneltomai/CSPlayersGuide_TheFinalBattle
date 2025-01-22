@@ -1,4 +1,4 @@
-﻿using TheFinalBattle.Attacks;
+﻿using TheFinalBattle.Actions;
 using TheFinalBattle.Characters;
 
 namespace TheFinalBattle.Items
@@ -23,7 +23,5 @@ namespace TheFinalBattle.Items
     }
 
     public record ItemData(Targeting Targeting, TargetTeam TargetTeam);
-    public enum Targeting { SingleTarget, TeamTarget }
-    public enum TargetTeam { OwnTeam, EnemyTeam }
 }
 
