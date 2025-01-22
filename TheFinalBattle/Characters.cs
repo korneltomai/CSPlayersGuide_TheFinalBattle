@@ -6,7 +6,7 @@ namespace TheFinalBattle.Characters
     public abstract class Character
     {
         public abstract string Name { get; }
-        public abstract IAttack Attack { get; }
+        public abstract IAttack StandardAttack { get; }
         public int MaxHealth { get; }
 
         private int _health;
@@ -27,7 +27,7 @@ namespace TheFinalBattle.Characters
     public class TrueProgrammer : Character
     {
         public override string Name { get; }
-        public override IAttack Attack { get => new Punch(); }
+        public override IAttack StandardAttack { get => new Punch(); }
 
         public TrueProgrammer(string name) : base(25) { Name = name; }
     }
@@ -36,7 +36,7 @@ namespace TheFinalBattle.Characters
     {
         private readonly Random _random = new Random();
         public override string Name { get => "SKELETON"; }
-        public override IAttack Attack { get => new BoneCrunch(); }
+        public override IAttack StandardAttack { get => new BoneCrunch(); }
         
         public Skeleton() : base(5) { }
     }
@@ -45,7 +45,7 @@ namespace TheFinalBattle.Characters
     {
         private readonly Random _random = new Random();
         public override string Name { get => "UNCODED ONE"; }
-        public override IAttack Attack { get => new Unraveling(); }
+        public override IAttack StandardAttack { get => new Unraveling(); }
         
         public UncodedOne() : base(15) { }
     }

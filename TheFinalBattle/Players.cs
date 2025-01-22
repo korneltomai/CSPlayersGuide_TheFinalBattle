@@ -1,7 +1,9 @@
-﻿using System;
-using TheFinalBattle.Actions;
+﻿using TheFinalBattle.Actions;
+using TheFinalBattle.Attacks;
 using TheFinalBattle.Characters;
 using TheFinalBattle.Items;
+using static TheFinalBattle.Menu;
+using static TheFinalBattle.Helpers;
 
 namespace TheFinalBattle.Players
 {
@@ -26,18 +28,23 @@ namespace TheFinalBattle.Players
                 
 
             int enemyPartySize = battle.GetEnemyPartyFor(character).Characters.Count();
-            var attackTargets = GetActionTargets(battle, character, character.Attack.AttackData.Targeting, character.Attack.AttackData.TargetTeam);
-            return new AttackAction(character.Attack, attackTargets);
+            AttackData attackData = character.StandardAttack.AttackData;
+
+            var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+            return new AttackAction(character.StandardAttack, attackTargets);
         }
 
         private List<Character> GetActionTargets(Battle battle, Character user, Targeting targeting, TargetTeam targetTeam)
         {
+            var ownTeam = battle.GetPartyFor(user).Characters;
+            var enemyTeam = battle.GetEnemyPartyFor(user).Characters;
+
             return (targeting, targetTeam) switch
             {
-                (Targeting.SingleTarget, TargetTeam.OwnTeam) => [battle.GetPartyFor(user).Characters[_random.Next(battle.GetPartyFor(user).Characters.Count)]],
-                (Targeting.TeamTarget, TargetTeam.OwnTeam) => battle.GetPartyFor(user).Characters,
-                (Targeting.SingleTarget, TargetTeam.EnemyTeam) => [battle.GetEnemyPartyFor(user).Characters[_random.Next(battle.GetEnemyPartyFor(user).Characters.Count)]],
-                (Targeting.TeamTarget, TargetTeam.EnemyTeam) => battle.GetEnemyPartyFor(user).Characters,
+                (Targeting.SingleTarget, TargetTeam.OwnTeam) => [ownTeam[_random.Next(ownTeam.Count)]],
+                (Targeting.TeamTarget, TargetTeam.OwnTeam) => ownTeam,
+                (Targeting.SingleTarget, TargetTeam.EnemyTeam) => [enemyTeam[_random.Next(enemyTeam.Count)]],
+                (Targeting.TeamTarget, TargetTeam.EnemyTeam) => enemyTeam,
                 _ => throw new ArgumentException()
             };
         }
@@ -47,31 +54,37 @@ namespace TheFinalBattle.Players
     {
         public IAction GetAction(Battle battle, Character character)
         {
-            Console.WriteLine($"1 - Attack ({character.Attack.Name})");
-            Console.WriteLine($"2 - Use Item");
-            Console.WriteLine($"3 - Do Nothing");
+            var menuItems = BuildMenu(character);
+            DisplayMenu(menuItems, character);
 
             while (true)
             {
-                int actionIndex = Helpers.GetIntInputFromPlayer("What do you want to do? ", 3);
+                int actionIndex = GetIntInputFromPlayer("What do you want to do? ", menuItems.Count) - 1;
 
-                switch (actionIndex)
+                switch (menuItems[actionIndex])
                 {
-                    case 1:
-                        var attackTargets = GetActionTargets(battle, character, character.Attack.AttackData.Targeting, character.Attack.AttackData.TargetTeam);
-                        return new AttackAction(character.Attack, attackTargets);
-                    case 2:
+                    case MenuItem.StandardAttack:
+                        AttackData attackData = character.StandardAttack.AttackData;
+                        var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+                        return new AttackAction(character.StandardAttack, attackTargets);
+                    case MenuItem.EquipAttack:
+                        break;
+                    case MenuItem.UseItem:
                         bool partyHasItems = battle.GetPartyFor(character).Inventory.DisplayItems();
                         if (partyHasItems)
                         {
                             var itemStacks = battle.GetPartyFor(character).Inventory.GetItemStacksFromInventory();
-                            int itemIndex = Helpers.GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
+                            int itemIndex = GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
                             IItem item = itemStacks[itemIndex].Items[0];
                             var itemTargets = GetActionTargets(battle, character, item.ItemData.Targeting, item.ItemData.TargetTeam);
                             return new UseItemAction(itemStacks[itemIndex].Items[0], itemTargets);
                         }
                         continue;
-                    case 3:
+                    case MenuItem.EquipGear:
+                        break;
+                    case MenuItem.UnequipGear:
+                        break;
+                    case MenuItem.DoNothing:
                         return new NothingAction();
                     default:
                         throw new IndexOutOfRangeException();
@@ -91,12 +104,12 @@ namespace TheFinalBattle.Players
 
                 if (targetTeam == TargetTeam.OwnTeam)
                 {
-                    int targetIndex = Helpers.GetIntInputFromPlayer("Select a hero: ", battle.GetPartyFor(user).Characters.Count) - 1;
+                    int targetIndex = GetIntInputFromPlayer("Select a hero: ", battle.GetPartyFor(user).Characters.Count) - 1;
                     target.Add(battle.GetPartyFor(user).Characters[targetIndex]);
                 }
                 else
                 {
-                    int targetIndex = Helpers.GetIntInputFromPlayer("Select an enemy: ", battle.GetEnemyPartyFor(user).Characters.Count) - 1;
+                    int targetIndex = GetIntInputFromPlayer("Select an enemy: ", battle.GetEnemyPartyFor(user).Characters.Count) - 1;
                     target.Add(battle.GetEnemyPartyFor(user).Characters[targetIndex]);
                 }
 
@@ -104,5 +117,6 @@ namespace TheFinalBattle.Players
             }
         }
 
+        
     }
 }
