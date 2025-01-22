@@ -45,11 +45,19 @@ Party[] GetWaves(IPlayer player)
                         ),
                     new Party(
                         player,
-                        [new UncodedOne()],
+                        [new StoneAmarok(), new StoneAmarok()],
                         new Inventory(
                             [new Potion()],
                             []
                             )
                         ),
+                    new Party(
+                        player,
+                        [new UncodedOne()],
+                        new Inventory(
+                            [new Potion()],
+                            []
+                            )
+                        )
                 ];
 }

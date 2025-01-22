@@ -37,9 +37,11 @@ namespace TheFinalBattle.Actions
                     Console.WriteLine($"{_attack.Name} missed.");
                 else
                 {
-                    Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {target.Name}.");
-
-                    target.Health -= _attack.AttackData.Damage;
+                    AttackData attackData = _attack.AttackData;
+                    foreach (var modifier in target.DefensiveModifiers)
+                        attackData = modifier.Apply(attackData);
+                    target.Health -= attackData.Damage;
+                    Console.WriteLine($"{_attack.Name} dealt {attackData.Damage} damage to {target.Name}.");
 
                     if (target.Health == 0)
                     {

@@ -5,14 +5,16 @@ namespace TheFinalBattle.Characters
     public abstract class Character
     {
         public abstract string Name { get; }
-        public abstract IAttack StandardAttack { get; }
-        public IAttack? GearAttack => Gear?.Attack;
-        public IGear? Gear { get; set; }
-
         public int MaxHealth { get; }
 
         private int _health;
         public int Health { get => _health; set => _health = Math.Clamp(value, 0, MaxHealth); }
+        public abstract IAttack StandardAttack { get; }
+        public IAttack? GearAttack => Gear?.Attack;
+        public IGear? Gear { get; set; }
+        public List<IAttackModifier> DefensiveModifiers { get; set; } = [];
+
+        
 
         public Character(int health)
         {
@@ -62,6 +64,15 @@ namespace TheFinalBattle.Characters
         
         public Skeleton() : base(5) { }
         public Skeleton(IGear gear) : base(5, gear) { }
+    }
+
+    public class StoneAmarok : Character
+    {
+        public override string Name { get => "STONE AMAROK"; }
+        public override IAttack StandardAttack { get => new Bite(); }
+
+        public StoneAmarok() : base(5) { DefensiveModifiers.Add(new StoneArmor()); }
+        public StoneAmarok(IGear gear) : base(5, gear) { DefensiveModifiers.Add(new StoneArmor()); }
     }
 
     public class UncodedOne : Character

@@ -53,6 +53,8 @@ namespace TheFinalBattle
 
         private void LootMonsters() 
         {
+            bool needNewLine = false;
+
             if (Monsters!.Inventory.Items.Count > 0)
             {
                 Heroes.Inventory.Items.AddRange(Monsters!.Inventory.Items);
@@ -66,6 +68,7 @@ namespace TheFinalBattle
                 Monsters!.Inventory.Items.Clear();
 
                 Console.WriteLine(itemLootString[..^2]);
+                needNewLine = true;
             }
 
             if (Monsters!.Inventory.Gears.Count > 0)
@@ -81,7 +84,11 @@ namespace TheFinalBattle
                 Monsters!.Inventory.Gears.Clear();
 
                 Console.WriteLine(gearLootString[..^2]);
-            }     
+                needNewLine = true;
+            }
+
+            if (needNewLine)
+                Console.WriteLine();
         }
     }
 
