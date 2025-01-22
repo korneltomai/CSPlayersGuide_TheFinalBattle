@@ -37,6 +37,13 @@ namespace TheFinalBattle.Actions
                 {
                     Console.WriteLine($"{target.Name} has been defeated!");
                     battle.GetPartyFor(target).Characters.Remove(target);
+
+                    if (target.Gear != null)
+                    {
+                        battle.GetEnemyPartyFor(target).Inventory.Gears.Add(target.Gear);
+                        Console.WriteLine($"You have looted {target.Gear.Name} from {target.Name}.");
+                        target.Gear = null;
+                    }
                 }
                 else
                     Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
@@ -85,7 +92,7 @@ namespace TheFinalBattle.Actions
             if (user.Gear != null)
             {
                 battle.GetPartyFor(user).Inventory.Gears.Add(user.Gear);
-                Console.WriteLine($"{user.Name} has swapped his {user.Gear} to {_gear.Name}.");
+                Console.WriteLine($"{user.Name} has swapped his {user.Gear.Name} to {_gear.Name}.");
             }
             else
                 Console.WriteLine($"{user.Name} has equipped {_gear.Name}.");
