@@ -67,7 +67,7 @@ namespace TheFinalBattle
 
                 Monsters!.Inventory.Items.Clear();
 
-                Console.WriteLine(itemLootString[..^2]);
+                Helpers.ColorWriteLine(itemLootString[..^2], ConsoleColor.DarkGreen);
                 needNewLine = true;
             }
 
@@ -83,7 +83,7 @@ namespace TheFinalBattle
 
                 Monsters!.Inventory.Gears.Clear();
 
-                Console.WriteLine(gearLootString[..^2]);
+                Helpers.ColorWriteLine(gearLootString[..^2], ConsoleColor.DarkGreen);
                 needNewLine = true;
             }
 

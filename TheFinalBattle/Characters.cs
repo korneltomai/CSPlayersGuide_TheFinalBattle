@@ -14,8 +14,6 @@ namespace TheFinalBattle.Characters
         public IGear? Gear { get; set; }
         public List<IAttackModifier> DefensiveModifiers { get; set; } = [];
 
-        
-
         public Character(int health)
         {
             MaxHealth = health;
@@ -43,8 +41,8 @@ namespace TheFinalBattle.Characters
         public override string Name { get; }
         public override IAttack StandardAttack { get => new Punch(); }
 
-        public TrueProgrammer(string name) : base(25) { Name = name; }
-        public TrueProgrammer(string name, IGear gear) : base(25, gear) { Name = name; }
+        public TrueProgrammer(string name) : base(25) { Name = name; DefensiveModifiers.Add(new ObjectSight()); }
+        public TrueProgrammer(string name, IGear gear) : base(25, gear) { Name = name; DefensiveModifiers.Add(new ObjectSight()); }
     }
 
     public class VinFletcher : Character

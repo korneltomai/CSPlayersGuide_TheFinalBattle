@@ -45,13 +45,13 @@ namespace TheFinalBattle.Actions
 
                     if (target.Health == 0)
                     {
-                        Console.WriteLine($"{target.Name} has been defeated!");
+                        Helpers.ColorWriteLine($"{target.Name} has been defeated!", ConsoleColor.Green);
                         battle.GetPartyFor(target).Characters.Remove(target);
 
                         if (target.Gear != null)
                         {
                             battle.GetEnemyPartyFor(target).Inventory.Gears.Add(target.Gear);
-                            Console.WriteLine($"You have looted {target.Gear.Name} from {target.Name}.");
+                            Helpers.ColorWriteLine($"You have looted {target.Gear.Name} from {target.Name}.", ConsoleColor.DarkGreen);
                             target.Gear = null;
                         }
                     }

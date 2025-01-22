@@ -31,7 +31,7 @@ namespace TheFinalBattle.Attacks
     {
         private readonly Random _random = new Random();
         public string Name => "UNRAVELING";
-        public AttackData AttackData => new AttackData(_random.Next(3));
+        public AttackData AttackData => new AttackData(_random.Next(5), DamageType:DamageType.Decoding);
     }
 
     public class Stab : IAttack
@@ -52,6 +52,7 @@ namespace TheFinalBattle.Attacks
         public AttackData AttackData => new AttackData(3, hitChance:0.5f);
     }
 
-    public record AttackData(int Damage, Targeting Targeting = Targeting.SingleTarget, TargetTeam TargetTeam = TargetTeam.EnemyTeam, float hitChance = 1.0f);
+    public record AttackData(int Damage, DamageType DamageType = DamageType.Normal, Targeting Targeting = Targeting.SingleTarget, TargetTeam TargetTeam = TargetTeam.EnemyTeam, float hitChance = 1.0f);
+    public enum DamageType { Normal, Decoding }
 }
 

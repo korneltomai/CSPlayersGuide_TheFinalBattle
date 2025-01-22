@@ -23,11 +23,7 @@ namespace TheFinalBattle
                 validInput = Int32.TryParse(input, out actionIndex) && actionIndex <= max && actionIndex >= 1;
 
                 if (!validInput)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("That is not a valid index!");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
+                    ColorWriteLine("That is not a valid index!", ConsoleColor.Red);
             } while (!validInput);
 
             return actionIndex;
@@ -58,6 +54,13 @@ namespace TheFinalBattle
                 textToPrint.Append(lineChar);
 
             Console.WriteLine(textToPrint.ToString());
+        }
+
+        public static void ColorWriteLine(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
