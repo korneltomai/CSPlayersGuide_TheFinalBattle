@@ -66,7 +66,7 @@ namespace TheFinalBattle.Actions
 
                 _item.Use(target);
 
-                battle.GetPartyFor(user).Items.Remove(_item);
+                battle.GetPartyFor(user).Inventory.Items.Remove(_item);
             }
         } 
     }

@@ -9,12 +9,12 @@ namespace TheFinalBattle
     {
         public IPlayer Player { get; }
         public List<Character> Characters {  get; set; } = new List<Character>();
-        public List<IItem> Items { get; set; } = new List<IItem>();
+        public Inventory Inventory { get; set; }
 
-        public Party(IPlayer player, List<Character> characters, List<IItem> items) { 
+        public Party(IPlayer player, List<Character> characters, Inventory inventory) { 
             Player = player;
             Characters = characters;
-            Items = items;
+            Inventory = inventory;
         }
 
         public bool TakeTurn(Battle battle)
@@ -34,30 +34,6 @@ namespace TheFinalBattle
                     return true;
             }
             return false;
-        }
-
-        public bool DisplayItems()
-        {
-            if (Items.Count == 0)
-            {
-                Console.WriteLine("You party has no items.");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("The party has the current items:");
-
-                var items = GetItemStacksFromInventory();
-
-                int index = 1;
-                foreach (var itemStack in items)
-                {
-                    Console.WriteLine($"{index}.) {itemStack.Name}: {itemStack.Items.Count}");
-                    index++;
-                }
-
-                return true;
-            }
         }
 
         public void DisplayParty(Character currentCharacter, bool alignLeft = false)
@@ -82,23 +58,5 @@ namespace TheFinalBattle
                 index++;
             }
         }
-
-        public ItemStack[] GetItemStacksFromInventory()
-        {
-            List<ItemStack> items = new List<ItemStack>();
-
-            foreach (IItem item in Items)
-            {
-                var stack = items.FirstOrDefault(i => i.Name == item.Name);
-                if (stack == null)
-                    items.Add(new ItemStack(item.Name, [item]));
-                else
-                    stack.Items.Add(item);
-            }
-
-            return items.ToArray();
-        }
-
-        public record ItemStack(string Name, List<IItem> Items);
     } 
 }

@@ -18,7 +18,7 @@ namespace TheFinalBattle.Players
         {
             IAction action = new NothingAction();
 
-            IItem? potion = battle.GetPartyFor(character).Items.FirstOrDefault(i => i.Name == "POTION");
+            IItem? potion = battle.GetPartyFor(character).Inventory.Items.FirstOrDefault(i => i.Name == "POTION");
             if (potion != null && 
                 character.Health <= (character.MaxHealth / 4) &&
                 _random.Next(100) < 25)
@@ -61,10 +61,10 @@ namespace TheFinalBattle.Players
                         var attackTargets = GetActionTargets(battle, character, character.Attack.AttackData.Targeting, character.Attack.AttackData.TargetTeam);
                         return new AttackAction(character.Attack, attackTargets);
                     case 2:
-                        bool partyHasItems = battle.GetPartyFor(character).DisplayItems();
+                        bool partyHasItems = battle.GetPartyFor(character).Inventory.DisplayItems();
                         if (partyHasItems)
                         {
-                            var itemStacks = battle.GetPartyFor(character).GetItemStacksFromInventory();
+                            var itemStacks = battle.GetPartyFor(character).Inventory.GetItemStacksFromInventory();
                             int itemIndex = Helpers.GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
                             IItem item = itemStacks[itemIndex].Items[0];
                             var itemTargets = GetActionTargets(battle, character, item.ItemData.Targeting, item.ItemData.TargetTeam);

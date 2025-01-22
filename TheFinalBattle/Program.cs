@@ -13,12 +13,12 @@ IPlayer player2 = new ComputerPlayer();
 Party heroes = new Party(
     player1, 
     [new TrueProgrammer(playerName)], 
-    [new Potion(), new Potion(), new Potion()]
+    new Inventory([new Potion(), new Potion(), new Potion()])
     );
 Party monsters = new Party(
     player2,
     [new Skeleton()],
-    [new Potion()]
+    new Inventory([new Potion()])
     );
 
 Battle battle = new Battle(heroes, monsters);
