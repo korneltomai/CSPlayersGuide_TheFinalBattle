@@ -1,29 +1,29 @@
 ﻿using System;
 using TheFinalBattle.Characters;
+using TheFinalBattle.Items;
+using TheFinalBattle.Players;
 
 namespace TheFinalBattle
 {
     public class Game
     {
         Battle Battle { get; }
+        Party[] MonsterParties { get; }
 
-        public Game(Battle battle) 
+        public Game(Battle battle, Party[] monsterParties) 
         {
             Battle = battle;
+            MonsterParties = monsterParties;
         }
 
         public void Run()
         {
-            
-            List<Character>[] waves = GetWaves();
-
-            int waveCount = 0;
-            foreach (var wave in waves)
+            int waveCount = 1;
+            foreach (var wave in MonsterParties)
             {
                 WinningParty winner = WinningParty.None;
-                Battle.Monsters.Characters = wave;
-                waveCount++;
-                
+                Battle.Monsters = wave;
+
                 while (winner == WinningParty.None)
                     winner = Battle.PlayRound();
                     
@@ -35,27 +35,20 @@ namespace TheFinalBattle
 
                     return;
                 }
-                else if (waveCount < waves.Length)
+                else if (waveCount < MonsterParties.Length)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     Console.WriteLine("The next wave is approaching!");
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+
+                waveCount++;
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("The Heroes have defeated the Uncoded One!");
             Console.ForegroundColor = ConsoleColor.White;
-        }
-
-        private List<Character>[] GetWaves()
-        {
-            return [
-                    [new Skeleton()],
-                    [new Skeleton(), new Skeleton()],
-                    [new UncodedOne()],
-                ];
-        }
+        }  
     }
 }

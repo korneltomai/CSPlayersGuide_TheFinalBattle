@@ -9,10 +9,12 @@ namespace TheFinalBattle
             List<MenuItem> menuItems = new();
 
             menuItems.Add(MenuItem.StandardAttack);
-            // menuItems.Add(MenuItem.EquipAttack);
+            if (character.Gear != null)
+                menuItems.Add(MenuItem.GearAttack);
             menuItems.Add(MenuItem.UseItem);
-            // menuItems.Add(MenuItem.EquipGear);
-            // menuItems.Add(MenuItem.UnequipGear);
+            menuItems.Add(MenuItem.EquipGear);
+            if (character.Gear != null)
+                menuItems.Add(MenuItem.UnequipGear);
             menuItems.Add(MenuItem.DoNothing);
 
             return menuItems;
@@ -34,7 +36,7 @@ namespace TheFinalBattle
             return menuItem switch
             {
                 MenuItem.StandardAttack => character.StandardAttack.Name,
-                // MenuItem.EquipAttack => character.EquipAttack.Name,
+                MenuItem.GearAttack => character.GearAttack!.Name,
                 MenuItem.UseItem => "Use Item",
                 MenuItem.EquipGear => "Equip Gear",
                 MenuItem.UnequipGear => "Unequip Gear",
@@ -44,6 +46,6 @@ namespace TheFinalBattle
         }
             
 
-        public enum MenuItem { StandardAttack = 1, EquipAttack, UseItem, EquipGear, UnequipGear, DoNothing }
+        public enum MenuItem { StandardAttack = 1, GearAttack, UseItem, EquipGear, UnequipGear, DoNothing }
     }
 }

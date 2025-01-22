@@ -68,7 +68,49 @@ namespace TheFinalBattle.Actions
 
                 battle.GetPartyFor(user).Inventory.Items.Remove(_item);
             }
-        } 
+        }
+    }
+
+    public class EquipGearAction : IAction
+    {
+        private readonly IGear _gear;
+
+        public EquipGearAction(IGear gear)
+        {
+            _gear = gear;
+        }
+
+        public void Do(Battle battle, Character user)
+        {
+            if (user.Gear != null)
+            {
+                battle.GetPartyFor(user).Inventory.Gears.Add(user.Gear);
+                Console.WriteLine($"{user.Name} has swapped his {user.Gear} to {_gear.Name}.");
+            }
+            else
+                Console.WriteLine($"{user.Name} has equipped {_gear.Name}.");
+
+            user.Gear = _gear;
+            battle.GetPartyFor(user).Inventory.Gears.Remove(_gear);
+        }
+    }
+
+    public class UnEquipGearAction : IAction
+    {
+        private readonly IGear _gear;
+
+        public UnEquipGearAction(IGear gear)
+        {
+            _gear = gear;
+        }
+
+        public void Do(Battle battle, Character user)
+        {
+            battle.GetPartyFor(user).Inventory.Gears.Add(user.Gear!);
+            user.Gear = null;
+
+            Console.WriteLine($"{user.Name} has unequipped his {_gear.Name}.");
+        }
     }
 
     public enum Targeting { SingleTarget, TeamTarget }

@@ -25,13 +25,25 @@ namespace TheFinalBattle.Players
                 character.Health <= (character.MaxHealth / 4) &&
                 _random.Next(100) < 25)
                     return new UseItemAction(potion, [character]);
-                
+
+            var gears = battle.GetPartyFor(character).Inventory.Gears;
+            if (gears.Count > 0 && _random.Next(100) < 50)
+                return new EquipGearAction(gears[_random.Next(gears.Count)]);
 
             int enemyPartySize = battle.GetEnemyPartyFor(character).Characters.Count();
-            AttackData attackData = character.StandardAttack.AttackData;
 
-            var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
-            return new AttackAction(character.StandardAttack, attackTargets);
+            if (character.Gear != null)
+            {
+                AttackData attackData = character.GearAttack!.AttackData;
+                var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+                return new AttackAction(character.GearAttack, attackTargets);
+            }
+            else
+            {
+                AttackData attackData = character.StandardAttack!.AttackData;
+                var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+                return new AttackAction(character.StandardAttack, attackTargets);
+            }
         }
 
         private List<Character> GetActionTargets(Battle battle, Character user, Targeting targeting, TargetTeam targetTeam)
@@ -64,26 +76,41 @@ namespace TheFinalBattle.Players
                 switch (menuItems[actionIndex])
                 {
                     case MenuItem.StandardAttack:
-                        AttackData attackData = character.StandardAttack.AttackData;
-                        var attackTargets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
-                        return new AttackAction(character.StandardAttack, attackTargets);
-                    case MenuItem.EquipAttack:
-                        break;
-                    case MenuItem.UseItem:
-                        bool partyHasItems = battle.GetPartyFor(character).Inventory.DisplayItems();
-                        if (partyHasItems)
                         {
-                            var itemStacks = battle.GetPartyFor(character).Inventory.GetItemStacksFromInventory();
-                            int itemIndex = GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
-                            IItem item = itemStacks[itemIndex].Items[0];
-                            var itemTargets = GetActionTargets(battle, character, item.ItemData.Targeting, item.ItemData.TargetTeam);
-                            return new UseItemAction(itemStacks[itemIndex].Items[0], itemTargets);
+                            AttackData attackData = character.StandardAttack.AttackData;
+                            var targets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+                            return new AttackAction(character.StandardAttack, targets);
+                        }
+                    case MenuItem.GearAttack:
+                        {
+                            AttackData attackData = character.GearAttack!.AttackData;
+                            var targets = GetActionTargets(battle, character, attackData.Targeting, attackData.TargetTeam);
+                            return new AttackAction(character.GearAttack, targets);
+                        }
+                    case MenuItem.UseItem:
+                        {
+                            bool partyHasItems = battle.GetPartyFor(character).Inventory.DisplayItems();
+                            if (partyHasItems)
+                            {
+                                var itemStacks = battle.GetPartyFor(character).Inventory.GetItemStacksFromInventory();
+                                int itemIndex = GetIntInputFromPlayer("Which item do you want to use? ", itemStacks.Length) - 1;
+                                IItem item = itemStacks[itemIndex].Items[0];
+                                var targets = GetActionTargets(battle, character, item.ItemData.Targeting, item.ItemData.TargetTeam);
+                                return new UseItemAction(itemStacks[itemIndex].Items[0], targets);
+                            }
+                            continue;
+                        }
+                    case MenuItem.EquipGear:
+                        var inventory = battle.GetPartyFor(character).Inventory;
+                        bool partyHasGears = inventory.DisplayGears();
+                        if (partyHasGears)
+                        {
+                            int gearIndex = GetIntInputFromPlayer("Which item do you want to use? ", inventory.Gears.Count) - 1;
+                            return new EquipGearAction(inventory.Gears[gearIndex]);
                         }
                         continue;
-                    case MenuItem.EquipGear:
-                        break;
                     case MenuItem.UnequipGear:
-                        break;
+                        return new UnEquipGearAction(character.Gear!);
                     case MenuItem.DoNothing:
                         return new NothingAction();
                     default:

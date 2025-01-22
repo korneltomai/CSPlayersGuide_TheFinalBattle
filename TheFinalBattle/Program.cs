@@ -12,16 +12,44 @@ IPlayer player2 = new ComputerPlayer();
 
 Party heroes = new Party(
     player1, 
-    [new TrueProgrammer(playerName)], 
-    new Inventory([new Potion(), new Potion(), new Potion()])
-    );
-Party monsters = new Party(
-    player2,
-    [new Skeleton()],
-    new Inventory([new Potion()])
+    [new TrueProgrammer(playerName, new Sword())], 
+    new Inventory(
+        [new Potion(), new Potion(), new Potion()],
+        []
+        )
     );
 
-Battle battle = new Battle(heroes, monsters);
+Battle battle = new(heroes);
 
-Game game = new Game(battle);
+Game game = new Game(battle, GetWaves(player2));
 game.Run();
+
+Party[] GetWaves(IPlayer player)
+{
+    return [
+            new Party(
+                        player,
+                        [new Skeleton(new Dagger())],
+                        new Inventory(
+                            [new Potion()],
+                            []
+                            )
+                        ),
+                    new Party(
+                        player,
+                        [new Skeleton(), new Skeleton()],
+                        new Inventory(
+                            [new Potion()],
+                            [new Dagger(), new Dagger()]
+                            )
+                        ),
+                    new Party(
+                        player,
+                        [new UncodedOne()],
+                        new Inventory(
+                            [new Potion()],
+                            []
+                            )
+                        ),
+                ];
+}

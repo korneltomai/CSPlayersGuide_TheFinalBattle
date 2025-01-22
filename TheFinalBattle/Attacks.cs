@@ -28,6 +28,18 @@ namespace TheFinalBattle.Attacks
         public AttackData AttackData => new AttackData(_random.Next(3), Targeting.SingleTarget, TargetTeam.EnemyTeam);
     }
 
+    public class Stab : IAttack
+    {
+        public string Name => "STAB";
+        public AttackData AttackData => new AttackData(1, Targeting.SingleTarget, TargetTeam.EnemyTeam);
+    }
+
+    public class Slash : IAttack
+    {
+        public string Name => "SLASH";
+        public AttackData AttackData => new AttackData(2, Targeting.SingleTarget, TargetTeam.EnemyTeam);
+    }
+
     public record AttackData(int Damage, Targeting Targeting, TargetTeam TargetTeam);
 }
 

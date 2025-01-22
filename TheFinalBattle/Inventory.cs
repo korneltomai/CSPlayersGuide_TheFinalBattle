@@ -5,10 +5,12 @@ namespace TheFinalBattle
     public class Inventory
     {
         public List<IItem> Items { get; set; } = new List<IItem>();
+        public List<IGear> Gears { get; set; } = new List<IGear>();
 
-        public Inventory(List<IItem> items)
+        public Inventory(List<IItem> items, List<IGear> gears)
         {
             Items = items;
+            Gears = gears;
         }
 
         public bool DisplayItems()
@@ -34,6 +36,29 @@ namespace TheFinalBattle
                 return true;
             }
         }
+
+        public bool DisplayGears()
+        {
+            if (Gears.Count == 0)
+            {
+                Console.WriteLine("You party has no gears.");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("The party has the current gears:");
+
+                int index = 1;
+                foreach (IGear gear in Gears)
+                {
+                    Console.WriteLine($"{index}.) {gear.Name}");
+                    index++;
+                }
+
+                return true;
+            }
+        }
+
         public ItemStack[] GetItemStacksFromInventory()
         {
             List<ItemStack> items = new List<ItemStack>();

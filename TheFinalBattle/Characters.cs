@@ -1,5 +1,4 @@
-﻿using TheFinalBattle.Actions;
-using TheFinalBattle.Attacks;
+﻿using TheFinalBattle.Attacks;
 
 namespace TheFinalBattle.Characters
 {
@@ -7,6 +6,9 @@ namespace TheFinalBattle.Characters
     {
         public abstract string Name { get; }
         public abstract IAttack StandardAttack { get; }
+        public IAttack? GearAttack => Gear?.Attack;
+        public IGear? Gear { get; set; }
+
         public int MaxHealth { get; }
 
         private int _health;
@@ -18,9 +20,19 @@ namespace TheFinalBattle.Characters
             Health = health;
         }
 
+        public Character(int health, IGear gear)
+        {
+            MaxHealth = health;
+            Health = health;
+            Gear = gear;
+        }
+
         public override string ToString()
         {
-            return $"{Name}  ( {Health}/{MaxHealth} )";
+            string text = $"{Name} ({Health}/{MaxHealth})";
+            if (Gear != null)
+                text += $" [{Gear.Name}]";
+            return text;
         }
     }
 
@@ -30,6 +42,7 @@ namespace TheFinalBattle.Characters
         public override IAttack StandardAttack { get => new Punch(); }
 
         public TrueProgrammer(string name) : base(25) { Name = name; }
+        public TrueProgrammer(string name, IGear gear) : base(25, gear) { Name = name; }
     }
 
     public class Skeleton : Character
@@ -39,6 +52,7 @@ namespace TheFinalBattle.Characters
         public override IAttack StandardAttack { get => new BoneCrunch(); }
         
         public Skeleton() : base(5) { }
+        public Skeleton(IGear gear) : base(5, gear) { }
     }
 
     public class UncodedOne : Character
@@ -48,5 +62,6 @@ namespace TheFinalBattle.Characters
         public override IAttack StandardAttack { get => new Unraveling(); }
         
         public UncodedOne() : base(15) { }
+        public UncodedOne(IGear gear) : base(15, gear) { }
     }
 }
