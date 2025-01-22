@@ -12,7 +12,7 @@ IPlayer player2 = new ComputerPlayer();
 
 Party heroes = new Party(
     player1, 
-    [new TrueProgrammer(playerName, new Sword())], 
+    [new TrueProgrammer(playerName, new Sword()), new VinFletcher(new VinsBow())], 
     new Inventory(
         [new Potion(), new Potion(), new Potion()],
         []

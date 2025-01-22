@@ -18,6 +18,7 @@ namespace TheFinalBattle.Actions
     {
         private readonly IAttack _attack;
         private readonly List<Character> _targets;
+        
         public AttackAction(IAttack attack, List<Character> targets)
         {
             _attack = attack;
@@ -26,27 +27,35 @@ namespace TheFinalBattle.Actions
 
         public void Do(Battle battle, Character user)
         {
+            Random random = new Random();
+
             foreach (Character target in _targets)
             {
-                target.Health -= _attack.AttackData.Damage;
-
                 Console.WriteLine($"{user.Name} used {_attack.Name} on {target.Name}.");
-                Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {target.Name}.");
 
-                if (target.Health == 0)
-                {
-                    Console.WriteLine($"{target.Name} has been defeated!");
-                    battle.GetPartyFor(target).Characters.Remove(target);
-
-                    if (target.Gear != null)
-                    {
-                        battle.GetEnemyPartyFor(target).Inventory.Gears.Add(target.Gear);
-                        Console.WriteLine($"You have looted {target.Gear.Name} from {target.Name}.");
-                        target.Gear = null;
-                    }
-                }
+                if (random.NextDouble() >= _attack.AttackData.hitChance)
+                    Console.WriteLine($"{_attack.Name} missed.");
                 else
-                    Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
+                {
+                    Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {target.Name}.");
+
+                    target.Health -= _attack.AttackData.Damage;
+
+                    if (target.Health == 0)
+                    {
+                        Console.WriteLine($"{target.Name} has been defeated!");
+                        battle.GetPartyFor(target).Characters.Remove(target);
+
+                        if (target.Gear != null)
+                        {
+                            battle.GetEnemyPartyFor(target).Inventory.Gears.Add(target.Gear);
+                            Console.WriteLine($"You have looted {target.Gear.Name} from {target.Name}.");
+                            target.Gear = null;
+                        }
+                    }
+                    else
+                        Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
+                }
             }
         }
     }

@@ -45,6 +45,15 @@ namespace TheFinalBattle.Characters
         public TrueProgrammer(string name, IGear gear) : base(25, gear) { Name = name; }
     }
 
+    public class VinFletcher : Character
+    {
+        public override string Name => "VIN FLETCHER";
+        public override IAttack StandardAttack { get => new Punch(); }
+
+        public VinFletcher() : base(15) { }
+        public VinFletcher(IGear gear) : base(15, gear) { }
+    }
+
     public class Skeleton : Character
     {
         private readonly Random _random = new Random();
