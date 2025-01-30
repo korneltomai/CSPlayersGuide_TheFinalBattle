@@ -1,5 +1,6 @@
 ﻿using System;
 using TheFinalBattle.Characters;
+using TheFinalBattle.Helpers;
 using TheFinalBattle.Items;
 using TheFinalBattle.Players;
 
@@ -29,14 +30,14 @@ namespace TheFinalBattle
                     
                 if (winner == WinningParty.Monsters)
                 {
-                    Helpers.ColorWriteLine("The Uncoded One's forces have privailed!", ConsoleColor.Red);
+                    ConsoleHelper.ColorWriteLine("The Uncoded One's forces have privailed!", ConsoleColor.Red);
                     Console.ForegroundColor = ConsoleColor.White;
 
                     return;
                 }
                 else if (waveCount < MonsterParties.Length)
                 {
-                    Helpers.ColorWriteLine("The next wave is approaching!", ConsoleColor.Magenta);
+                    ConsoleHelper.ColorWriteLine("The next wave is approaching!", ConsoleColor.Magenta);
                     Console.WriteLine();
 
                     Thread.Sleep(2000);
@@ -45,7 +46,7 @@ namespace TheFinalBattle
                 waveCount++;
             }
 
-            Helpers.ColorWriteLine("The Heroes have defeated the Uncoded One!", ConsoleColor.Green);
+            ConsoleHelper.ColorWriteLine("The Heroes have defeated the Uncoded One!", ConsoleColor.Green);
         }  
     }
 }

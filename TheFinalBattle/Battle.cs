@@ -1,4 +1,6 @@
 ﻿using TheFinalBattle.Characters;
+using TheFinalBattle.Gears;
+using TheFinalBattle.Helpers;
 using TheFinalBattle.Items;
 
 namespace TheFinalBattle
@@ -44,11 +46,11 @@ namespace TheFinalBattle
 
         public void DisplayStatus(Character currentCharacter)
         {
-            Helpers.PrintLineWithTextInMiddle('=', "BATTLE");
+            ConsoleHelper.PrintLineWithTextInMiddle('=', "BATTLE");
             Heroes.DisplayParty(currentCharacter);
-            Helpers.PrintLineWithTextInMiddle('-', "VS");
+            ConsoleHelper.PrintLineWithTextInMiddle('-', "VS");
             Monsters!.DisplayParty(currentCharacter, true);
-            Helpers.PrintLine('=');
+            ConsoleHelper.PrintLine('=');
         }
 
         private void LootMonsters() 
@@ -67,7 +69,7 @@ namespace TheFinalBattle
 
                 Monsters!.Inventory.Items.Clear();
 
-                Helpers.ColorWriteLine(itemLootString[..^2], ConsoleColor.DarkGreen);
+                ConsoleHelper.ColorWriteLine(itemLootString[..^2], ConsoleColor.DarkGreen);
                 needNewLine = true;
             }
 
@@ -83,7 +85,7 @@ namespace TheFinalBattle
 
                 Monsters!.Inventory.Gears.Clear();
 
-                Helpers.ColorWriteLine(gearLootString[..^2], ConsoleColor.DarkGreen);
+                ConsoleHelper.ColorWriteLine(gearLootString[..^2], ConsoleColor.DarkGreen);
                 needNewLine = true;
             }
 

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
-namespace TheFinalBattle
+namespace TheFinalBattle.Helpers
 {
-    public static class Helpers
+    public static class ConsoleHelper
     {
         public static int GetIntInputFromPlayer(string text, int max)
         {
@@ -20,7 +16,7 @@ namespace TheFinalBattle
                 Console.ForegroundColor = ConsoleColor.White;
 
                 string input = Console.ReadLine() ?? "";
-                validInput = Int32.TryParse(input, out actionIndex) && actionIndex <= max && actionIndex >= 1;
+                validInput = int.TryParse(input, out actionIndex) && actionIndex <= max && actionIndex >= 1;
 
                 if (!validInput)
                     ColorWriteLine("That is not a valid index!", ConsoleColor.Red);

@@ -1,15 +1,8 @@
-﻿using TheFinalBattle.Actions;
+﻿using TheFinalBattle.Attacks;
 using TheFinalBattle.Characters;
 
 namespace TheFinalBattle.Items
 {
-    public interface IItem
-    {
-        public string Name { get; }
-        public ItemData ItemData { get; }
-        public void Use(Character target);
-    }
-
     public class Potion : IItem
     {
         public string Name => "POTION";
@@ -21,7 +14,5 @@ namespace TheFinalBattle.Items
             Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
         }
     }
-
-    public record ItemData(Targeting Targeting, TargetTeam TargetTeam);
 }
 

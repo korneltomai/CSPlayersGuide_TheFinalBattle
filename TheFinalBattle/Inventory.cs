@@ -1,4 +1,5 @@
-﻿using TheFinalBattle.Items;
+﻿using TheFinalBattle.Gears;
+using TheFinalBattle.Items;
 
 namespace TheFinalBattle
 {
