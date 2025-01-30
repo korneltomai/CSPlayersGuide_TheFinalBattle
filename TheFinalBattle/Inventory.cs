@@ -14,49 +14,29 @@ namespace TheFinalBattle
             Gears = gears;
         }
 
-        public bool DisplayItems()
+        public void DisplayItems()
         {
-            if (Items.Count == 0)
+            Console.WriteLine("The party has the current items:");
+
+            var items = GetItemStacksFromInventory();
+
+            int index = 1;
+            foreach (var itemStack in items)
             {
-                Console.WriteLine("You party has no items.");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("The party has the current items:");
-
-                var items = GetItemStacksFromInventory();
-
-                int index = 1;
-                foreach (var itemStack in items)
-                {
-                    Console.WriteLine($"{index}.) {itemStack.Name}: {itemStack.Items.Count}");
-                    index++;
-                }
-
-                return true;
+                Console.WriteLine($"{index}.) {itemStack.Name}: {itemStack.Items.Count}");
+                index++;
             }
         }
 
-        public bool DisplayGears()
+        public void DisplayGears()
         {
-            if (Gears.Count == 0)
-            {
-                Console.WriteLine("You party has no gears.");
-                return false;
-            }
-            else
-            {
-                Console.WriteLine("The party has the current gears:");
+            Console.WriteLine("The party has the current gears:");
 
-                int index = 1;
-                foreach (IGear gear in Gears)
-                {
-                    Console.WriteLine($"{index}.) {gear.Name}");
-                    index++;
-                }
-
-                return true;
+            int index = 1;
+            foreach (IGear gear in Gears)
+            {
+                Console.WriteLine($"{index}.) {gear.Name}");
+                index++;
             }
         }
 

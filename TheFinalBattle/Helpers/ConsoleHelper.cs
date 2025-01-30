@@ -4,7 +4,7 @@ namespace TheFinalBattle.Helpers
 {
     public static class ConsoleHelper
     {
-        public static int GetIntInputFromPlayer(string text, int max)
+        public static int GetIndexInputFromPlayer(string text, int max)
         {
             int actionIndex = 0;
 
