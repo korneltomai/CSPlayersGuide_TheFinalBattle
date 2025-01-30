@@ -1,6 +1,5 @@
 ﻿using TheFinalBattle.Actions;
 using TheFinalBattle.Characters;
-using TheFinalBattle.Items;
 
 namespace TheFinalBattle.Menu
 {
@@ -10,7 +9,7 @@ namespace TheFinalBattle.Menu
 
         public UnequipGearMenuItem(Character character) : base(character) { }
 
-        public override IAction GetAction(Battle battle)
+        public override IAction? GetAction(Battle battle)
         {
             return new UnEquipGearAction(_character.Gear!);
         }

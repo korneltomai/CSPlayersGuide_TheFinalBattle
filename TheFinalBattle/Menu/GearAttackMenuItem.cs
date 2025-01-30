@@ -10,7 +10,7 @@ namespace TheFinalBattle.Menu
 
         public GearAttackMenuItem(Character character) : base(character) { }
 
-        public override IAction GetAction(Battle battle)
+        public override IAction? GetAction(Battle battle)
         {
             AttackData attackData = _character.GearAttack!.AttackData;
             var targets = GetActionTargets(battle, _character, attackData.Targeting, attackData.TargetTeam);

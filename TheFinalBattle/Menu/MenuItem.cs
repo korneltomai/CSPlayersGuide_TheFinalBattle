@@ -14,7 +14,7 @@ namespace TheFinalBattle.Menu
             _character = character; 
         }
 
-        public abstract IAction GetAction(Battle battle);
+        public abstract IAction? GetAction(Battle battle);
 
         protected List<Character> GetActionTargets(Battle battle, Character user, Targeting targeting, TargetTeam targetTeam)
         {
@@ -29,15 +29,13 @@ namespace TheFinalBattle.Menu
                 if (targetTeam == TargetTeam.OwnTeam)
                 {
                     int targetIndex = Helpers.ConsoleHelper.GetIndexInputFromPlayer("Select a friendly character: ", battle.GetPartyFor(user).Characters.Count) - 1;
-                    target.Add(battle.GetPartyFor(user).Characters[targetIndex]);
+                    return [battle.GetPartyFor(user).Characters[targetIndex]];
                 }
                 else
                 {
                     int targetIndex = Helpers.ConsoleHelper.GetIndexInputFromPlayer("Select an enemy character: ", battle.GetEnemyPartyFor(user).Characters.Count) - 1;
-                    target.Add(battle.GetEnemyPartyFor(user).Characters[targetIndex]);
+                    return [battle.GetEnemyPartyFor(user).Characters[targetIndex]];
                 }
-
-                return target;
             }
         }
     }

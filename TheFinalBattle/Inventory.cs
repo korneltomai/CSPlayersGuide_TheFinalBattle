@@ -1,5 +1,6 @@
 ﻿using TheFinalBattle.Gears;
 using TheFinalBattle.Items;
+using static TheFinalBattle.Inventory;
 
 namespace TheFinalBattle
 {
@@ -26,6 +27,7 @@ namespace TheFinalBattle
                 Console.WriteLine($"{index}.) {itemStack.Name}: {itemStack.Items.Count}");
                 index++;
             }
+            Console.WriteLine($"{index}.) Go back");
         }
 
         public void DisplayGears()
@@ -38,6 +40,7 @@ namespace TheFinalBattle
                 Console.WriteLine($"{index}.) {gear.Name}");
                 index++;
             }
+            Console.WriteLine($"{index}.) Go back");
         }
 
         public ItemStack[] GetItemStacksFromInventory()

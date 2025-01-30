@@ -1,4 +1,5 @@
-﻿using TheFinalBattle.Actions;
+﻿using System;
+using TheFinalBattle.Actions;
 using TheFinalBattle.Characters;
 
 namespace TheFinalBattle.Players
@@ -8,10 +9,16 @@ namespace TheFinalBattle.Players
         public IAction GetAction(Battle battle, Character character)
         {
             var menuItems = Menu.MenuBuilder.BuildMenu(battle, character);
-            Menu.MenuBuilder.DisplayMenu(menuItems, character);
 
-            int actionIndex = Helpers.ConsoleHelper.GetIndexInputFromPlayer("What do you want to do? ", menuItems.Count) - 1;
-            return menuItems[actionIndex].GetAction(battle);
+            IAction? action = null;
+            while (action == null)
+            {
+                Menu.MenuBuilder.DisplayMenu(menuItems, character);
+                int actionIndex = Helpers.ConsoleHelper.GetIndexInputFromPlayer("What do you want to do? ", menuItems.Count) - 1;
+                action = menuItems[actionIndex].GetAction(battle);
+            }
+
+            return action;
         }
     }
 }
