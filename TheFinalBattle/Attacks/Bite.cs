@@ -3,9 +3,7 @@
     public class Bite : IAttack
     {
         public string Name => "BITE";
-        public AttackData AttackData => new AttackData(1);
+        public AttackData AttackData => new AttackData(2);
     }
-
-    
 }
 

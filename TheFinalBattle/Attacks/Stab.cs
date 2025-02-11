@@ -3,7 +3,7 @@
     public class Stab : IAttack
     {
         public string Name => "STAB";
-        public AttackData AttackData => new AttackData(1);
+        public AttackData AttackData => new AttackData(2);
     }
 
     

@@ -23,7 +23,7 @@ namespace TheFinalBattle.Actions
                 else
                     Console.WriteLine($"{user.Name} used {_item.Name} on {target.Name}.");
 
-                _item.Use(target);
+                _item.Use(battle, target);
 
                 battle.GetPartyFor(user).Inventory.Items.Remove(_item);
             }

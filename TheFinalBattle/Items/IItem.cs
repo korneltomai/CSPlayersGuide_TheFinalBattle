@@ -7,7 +7,7 @@ namespace TheFinalBattle.Items
     {
         public string Name { get; }
         public ItemData ItemData { get; }
-        public void Use(Character target);
+        public void Use(Battle battle, Character target);
     }
 
     public record ItemData(Targeting Targeting, TargetTeam TargetTeam);

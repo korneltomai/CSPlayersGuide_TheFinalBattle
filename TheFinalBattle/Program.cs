@@ -13,9 +13,13 @@ IPlayer player2 = new ComputerPlayer();
 
 Party heroes = new Party(
     player1, 
-    [new TrueProgrammer(playerName, new Sword()), new VinFletcher(new VinsBow())], 
+    [
+        new TrueProgrammer(playerName, new Sword()), 
+        new VinFletcher(new VinsBow()),
+        new Ramosa(new HealersWand())
+    ], 
     new Inventory(
-        [new Potion(), new Potion(), new Potion()],
+        [new Potion(), new Potion(), new FireBomb()],
         []
         )
     );
@@ -40,7 +44,7 @@ Party[] GetWaves(IPlayer player)
                 player,
                 [new Skeleton(), new Skeleton()],
                 new Inventory(
-                    [new Potion()],
+                    [new Potion(), new FireBomb()],
                     [new Dagger(), new Dagger()]
                 )
             ),

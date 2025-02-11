@@ -19,34 +19,23 @@ namespace TheFinalBattle.Actions
         {
             Random random = new Random();
 
+            if (_attack.AttackData.Targeting == Targeting.TeamTarget)
+                Console.WriteLine($"{user.Name} used {_attack.Name}.");
+            else
+                Console.WriteLine($"{user.Name} used {_attack.Name} on {_targets[0].Name}.");
+
             foreach (Character target in _targets)
             {
-                Console.WriteLine($"{user.Name} used {_attack.Name} on {target.Name}.");
-
-                if (random.NextDouble() >= _attack.AttackData.hitChance)
+                if (random.NextDouble() >= _attack.AttackData.HitChance)
                     Console.WriteLine($"{_attack.Name} missed.");
                 else
                 {
-                    AttackData attackData = _attack.AttackData;
-                    foreach (var modifier in target.DefensiveModifiers)
-                        attackData = modifier.Apply(attackData);
-                    target.Health -= attackData.Damage;
-                    Console.WriteLine($"{_attack.Name} dealt {attackData.Damage} damage to {target.Name}.");
-
-                    if (target.Health == 0)
-                    {
-                        ConsoleHelper.ColorWriteLine($"{target.Name} has been defeated!", ConsoleColor.Green);
-                        battle.GetPartyFor(target).Characters.Remove(target);
-
-                        if (target.Gear != null)
-                        {
-                            battle.GetEnemyPartyFor(target).Inventory.Gears.Add(target.Gear);
-                            ConsoleHelper.ColorWriteLine($"You have looted {target.Gear.Name} from {target.Name}.", ConsoleColor.DarkGreen);
-                            target.Gear = null;
-                        }
-                    }
+                    if (_attack.AttackData.TargetTeam == TargetTeam.OwnTeam)
+                        Console.WriteLine($"{_attack.Name} restored {_attack.AttackData.Damage * -1} HP to {target.Name}.");
                     else
-                        Console.WriteLine($"{target.Name} is now at {target.Health}/{target.MaxHealth} HP.");
+                        Console.WriteLine($"{_attack.Name} dealt {_attack.AttackData.Damage} damage to {target.Name}.");
+
+                    target.Hit(battle, _attack.AttackData);
                 }
             }
         }

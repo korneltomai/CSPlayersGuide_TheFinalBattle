@@ -9,9 +9,12 @@ namespace TheFinalBattle.AttackModifiers
 
         public AttackData Apply(AttackData attackData)
         {
-            ConsoleHelper.ColorWriteLine($"{Name} has reduced the damage by 1 point.", ConsoleColor.Yellow);
+            
             if (attackData.DamageType == DamageType.Decoding)
-                return attackData with { Damage = attackData.Damage - 2 };
+            {
+                ConsoleHelper.ColorWriteLine($"{Name} has reduced the damage by 1 point.", ConsoleColor.Yellow);
+                return attackData with { Damage = attackData.Damage - 1 };
+            } 
             return attackData;
         }
     }

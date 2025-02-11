@@ -13,18 +13,25 @@ namespace TheFinalBattle.Players
         {
             IAction action = new NothingAction();
 
+            // Use potion
             IItem? potion = battle.GetPartyFor(character).Inventory.Items.FirstOrDefault(i => i.Name == "POTION");
             if (potion != null && 
                 character.Health <= (character.MaxHealth / 4) &&
                 _random.Next(100) < 25)
                     return new UseItemAction(potion, [character]);
 
+            // Use fire bomb
+            IItem? fireBomb = battle.GetPartyFor(character).Inventory.Items.FirstOrDefault(i => i.Name == "FIRE BOMB");
+            if (fireBomb != null &&
+                _random.Next(100) < 25)
+                return new UseItemAction(fireBomb, GetActionTargets(battle, character, fireBomb.ItemData.Targeting, fireBomb.ItemData.TargetTeam));
+
+            // Equip gear
             var gears = battle.GetPartyFor(character).Inventory.Gears;
             if (gears.Count > 0 && _random.Next(100) < 50)
                 return new EquipGearAction(gears[_random.Next(gears.Count)]);
 
-            int enemyPartySize = battle.GetEnemyPartyFor(character).Characters.Count();
-
+            // Attack
             if (character.Gear != null)
             {
                 AttackData attackData = character.GearAttack!.AttackData;

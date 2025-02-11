@@ -4,7 +4,7 @@
     {
         private readonly Random _random = new Random();
         public string Name => "BONE CRUNCH";
-        public AttackData AttackData => new AttackData(_random.Next(2));
+        public AttackData AttackData => new AttackData(_random.Next(3));
     }
 
     

@@ -40,7 +40,7 @@ namespace TheFinalBattle
                     ConsoleHelper.ColorWriteLine("The next wave is approaching!", ConsoleColor.Magenta);
                     Console.WriteLine();
 
-                    Thread.Sleep(2000);
+                    Thread.Sleep(3000);
                 }
 
                 waveCount++;

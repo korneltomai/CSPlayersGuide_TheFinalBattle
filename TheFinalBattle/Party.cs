@@ -28,7 +28,7 @@ namespace TheFinalBattle
                 action.Do(battle, character);
                 Console.WriteLine();
 
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
 
                 if (battle.GetEnemyPartyFor(character).Characters.Count() == 0)
                     return true;
